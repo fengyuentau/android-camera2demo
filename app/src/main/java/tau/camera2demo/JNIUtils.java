@@ -16,4 +16,5 @@ public class JNIUtils {
     }
 
     public static native void display(int srcWidth, int srcHeight, ByteBuffer srcBuffer, Surface surface);
+    public static native void display2(int srcWidth, int srcHeight, byte[] srcData, Surface surface);
 }

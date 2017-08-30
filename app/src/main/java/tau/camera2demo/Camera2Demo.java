@@ -1,5 +1,6 @@
 package tau.camera2demo;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -264,15 +265,17 @@ public class Camera2Demo extends Activity implements
             }
 
             // print image format
-            int format = reader.getImageFormat();
-            Log.d(TAG, "the format of captured frame: " + format);
-
-            // HERE to call jni methods
-            JNIUtils.display(image.getWidth(), image.getHeight(), image.getPlanes()[0].getBuffer(), surface);
-
+            //int format = reader.getImageFormat();
+            //Log.d(TAG, "the format of captured frame: " + format);
+            //Log.d(TAG, "The passing buffer length: " + image.getPlanes()[0].getBuffer().remaining());
 
             //ByteBuffer buffer = image.getPlanes()[0].getBuffer();
             //byte[] bytes = new byte[buffer.remaining()];
+            //buffer.get(bytes);
+
+            // HERE to call jni methods
+            JNIUtils.display(image.getWidth(), image.getHeight(), image.getPlanes()[0].getBuffer(), surface);
+            //JNIUtils.display2(image.getWidth(), image.getHeight(), bytes, surface);
 
 
             image.close();
