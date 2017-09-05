@@ -265,19 +265,30 @@ public class Camera2Demo extends Activity implements
             }
 
             // print image format
-            //int format = reader.getImageFormat();
-            //Log.d(TAG, "the format of captured frame: " + format);
+            int format = reader.getImageFormat();
+            Log.d(TAG, "the format of captured frame: " + format);
             //Log.d(TAG, "The passing buffer length: " + image.getPlanes()[0].getBuffer().remaining());
+            Log.d(TAG, "image width: " + image.getWidth() + "\nimage height: " + image.getHeight());
 
-            //ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-            //byte[] bytes = new byte[buffer.remaining()];
-            //buffer.get(bytes);
+            ByteBuffer buffer_Y = image.getPlanes()[0].getBuffer();
+            byte[] bytes_Y = new byte[buffer_Y.remaining()];
+            Log.d(TAG, "Y plane length: " + buffer_Y.remaining());
+            buffer_Y.get(bytes_Y);
+
+            ByteBuffer buffer_U = image.getPlanes()[1].getBuffer();
+            byte[] bytes_U = new byte[buffer_U.remaining()];
+            Log.d(TAG, "U plane length: " + buffer_U.remaining());
+            buffer_U.get(bytes_U);
+
+            ByteBuffer buffer_V = image.getPlanes()[2].getBuffer();
+            byte[] bytes_V = new byte[buffer_V.remaining()];
+            Log.d(TAG, "V plane length: " + buffer_V.remaining());
+            buffer_V.get(bytes_V);
 
             // HERE to call jni methods
-            JNIUtils.display(image.getWidth(), image.getHeight(), image.getPlanes()[0].getBuffer(), surface);
-            //JNIUtils.display2(image.getWidth(), image.getHeight(), bytes, surface);
-
-
+            JNIUtils.display(image.getWidth(), image.getHeight(), image.getPlanes()[0].getRowStride(), image.getPlanes()[0].getBuffer(), surface);
+            //JNIUtils.display2(image.getWidth(), image.getHeight(), bytes_Y, surface);
+//            image.getPlanes()[0].getRowStride()
             image.close();
         }
     };
