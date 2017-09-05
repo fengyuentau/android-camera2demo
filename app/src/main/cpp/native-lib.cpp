@@ -6,9 +6,6 @@
 
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "Camera2Demo", __VA_ARGS__)
 
-//converting Y Plane from YUV_420_888 to RGBA
-
-
 //converting YUV_420_888 to RGBA
 /*
 void YUVtoRGBA(jbyte* Y_jb, jbyte* U_jb, jbyte* V_jb, jint width, jint height, jint* rgb)
@@ -39,6 +36,7 @@ void YUVtoRGBA(jbyte* Y_jb, jbyte* U_jb, jbyte* V_jb, jint width, jint height, j
 }
 */
 
+//convert Y Plane from YUV_420_888 to RGBA
 extern "C" {
 JNIEXPORT jstring JNICALL Java_tau_camera2demo_JNIUtils_display(
         JNIEnv *env,
@@ -85,10 +83,6 @@ JNIEXPORT jstring JNICALL Java_tau_camera2demo_JNIUtils_display(
             ++rowPtr;
         }
     }
-
-
-    //memcpy(buffer.bits, srcLumaPtr, srcWidth * srcHeight * 1.5);
-
 
     ANativeWindow_unlockAndPost(window);
     ANativeWindow_release(window);
