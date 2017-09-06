@@ -46,8 +46,8 @@ public class Camera2Demo extends Activity implements
     private HandlerThread mThreadHandler;
 
     // size of images captured in ImageReader Callback
-    private int mImageWidth = 1920;
-    private int mImageHeight = 1080;
+    private int mImageWidth = 1920; //1920
+    private int mImageHeight = 1080; //1080
 
     // Log tag
     private static final String TAG = "Camera2Demo";
@@ -265,11 +265,12 @@ public class Camera2Demo extends Activity implements
             }
 
             // print image format
-            int format = reader.getImageFormat();
-            Log.d(TAG, "the format of captured frame: " + format);
+            //int format = reader.getImageFormat();
+            //Log.d(TAG, "the format of captured frame: " + format);
             //Log.d(TAG, "The passing buffer length: " + image.getPlanes()[0].getBuffer().remaining());
-            Log.d(TAG, "image width: " + image.getWidth() + "\nimage height: " + image.getHeight());
+//            Log.d(TAG, "image width: " + image.getWidth() + "\nimage height: " + image.getHeight());
 
+            /*
             ByteBuffer buffer_Y = image.getPlanes()[0].getBuffer();
             byte[] bytes_Y = new byte[buffer_Y.remaining()];
             Log.d(TAG, "Y plane length: " + buffer_Y.remaining());
@@ -284,11 +285,32 @@ public class Camera2Demo extends Activity implements
             byte[] bytes_V = new byte[buffer_V.remaining()];
             Log.d(TAG, "V plane length: " + buffer_V.remaining());
             buffer_V.get(bytes_V);
+            */
 
             // HERE to call jni methods
-            JNIUtils.display(image.getWidth(), image.getHeight(), image.getPlanes()[0].getRowStride(), image.getPlanes()[0].getBuffer(), surface);
-            //JNIUtils.display2(image.getWidth(), image.getHeight(), bytes_Y, surface);
-//            image.getPlanes()[0].getRowStride()
+//            JNIUtils.GrayscaleDisplay(image.getWidth(), image.getHeight(), image.getPlanes()[0].getRowStride(), image.getPlanes()[0].getBuffer(), surface);
+
+            Image.Plane Y_plane = image.getPlanes()[0];
+            int Y_rowStride = Y_plane.getRowStride();
+            Image.Plane U_plane = image.getPlanes()[1];
+            int U_rowStride = U_plane.getRowStride();
+            Image.Plane V_plane = image.getPlanes()[2];
+            int V_rowStride = V_plane.getRowStride();
+            JNIUtils.RGBADisplay(image.getWidth(), image.getHeight(), Y_rowStride, Y_plane.getBuffer(), U_rowStride, U_plane.getBuffer(), V_rowStride, V_plane.getBuffer(), surface);
+
+//            Log.d(TAG, "Y plane pixel stride: " + Y_plane.getPixelStride());
+//            Log.d(TAG, "U plane pixel stride: " + U_plane.getPixelStride());
+//            Log.d(TAG, "V plane pixel stride: " + V_plane.getPixelStride());
+
+//            Log.d(TAG, "Y plane length: " + Y_plane.getBuffer().remaining());
+//            Log.d(TAG, "U plane length: " + U_plane.getBuffer().remaining());
+//            Log.d(TAG, "V plane length: " + V_plane.getBuffer().remaining());
+
+//            Log.d(TAG, "Y plane rowStride: " + Y_rowStride);
+//            Log.d(TAG, "U plane rowStride: " + U_rowStride);
+//            Log.d(TAG, "V plane rowStride: " + V_rowStride);
+
+
             image.close();
         }
     };

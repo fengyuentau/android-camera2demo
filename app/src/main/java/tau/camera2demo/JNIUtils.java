@@ -15,6 +15,6 @@ public class JNIUtils {
         System.loadLibrary("native-lib");
     }
 
-    public static native void display(int srcWidth, int srcHeight, int rowStride, ByteBuffer srcBuffer, Surface surface);
-    public static native void display2(int srcWidth, int srcHeight, byte[] Y, byte[] U, byte[] V, Surface surface);
+    public static native void GrayscaleDisplay(int srcWidth, int srcHeight, int rowStride, ByteBuffer srcBuffer, Surface surface);
+    public static native void RGBADisplay(int srcWidth, int srcHeight, int Y_rowStride, ByteBuffer Y_Buffer, int U_rowStride, ByteBuffer U_Buffer, int V_rowStride, ByteBuffer V_Buffer, Surface surface);
 }
