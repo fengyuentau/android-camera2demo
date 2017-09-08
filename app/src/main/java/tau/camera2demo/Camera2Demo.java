@@ -264,39 +264,19 @@ public class Camera2Demo extends Activity implements
                 return;
             }
 
-            // print image format
-            //int format = reader.getImageFormat();
-            //Log.d(TAG, "the format of captured frame: " + format);
-            //Log.d(TAG, "The passing buffer length: " + image.getPlanes()[0].getBuffer().remaining());
-//            Log.d(TAG, "image width: " + image.getWidth() + "\nimage height: " + image.getHeight());
-
-            /*
-            ByteBuffer buffer_Y = image.getPlanes()[0].getBuffer();
-            byte[] bytes_Y = new byte[buffer_Y.remaining()];
-            Log.d(TAG, "Y plane length: " + buffer_Y.remaining());
-            buffer_Y.get(bytes_Y);
-
-            ByteBuffer buffer_U = image.getPlanes()[1].getBuffer();
-            byte[] bytes_U = new byte[buffer_U.remaining()];
-            Log.d(TAG, "U plane length: " + buffer_U.remaining());
-            buffer_U.get(bytes_U);
-
-            ByteBuffer buffer_V = image.getPlanes()[2].getBuffer();
-            byte[] bytes_V = new byte[buffer_V.remaining()];
-            Log.d(TAG, "V plane length: " + buffer_V.remaining());
-            buffer_V.get(bytes_V);
-            */
-
             // HERE to call jni methods
+            //grayscale output
 //            JNIUtils.GrayscaleDisplay(image.getWidth(), image.getHeight(), image.getPlanes()[0].getRowStride(), image.getPlanes()[0].getBuffer(), surface);
 
+            //RGBA output
             Image.Plane Y_plane = image.getPlanes()[0];
             int Y_rowStride = Y_plane.getRowStride();
             Image.Plane U_plane = image.getPlanes()[1];
-            int U_rowStride = U_plane.getRowStride();
+            int UV_rowStride = U_plane.getRowStride();  //in particular, uPlane.getRowStride() == vPlane.getRowStride()
             Image.Plane V_plane = image.getPlanes()[2];
-            int V_rowStride = V_plane.getRowStride();
-            JNIUtils.RGBADisplay(image.getWidth(), image.getHeight(), Y_rowStride, Y_plane.getBuffer(), U_rowStride, U_plane.getBuffer(), V_rowStride, V_plane.getBuffer(), surface);
+            JNIUtils.RGBADisplay(image.getWidth(), image.getHeight(), Y_rowStride, Y_plane.getBuffer(), UV_rowStride, U_plane.getBuffer(), V_plane.getBuffer(), surface);
+
+//            JNIUtils.RGBADisplay2(image.getWidth(), image.getHeight(), Y_rowStride, Y_plane.getBuffer(), U_plane.getBuffer(), V_plane.getBuffer(), surface);
 
 //            Log.d(TAG, "Y plane pixel stride: " + Y_plane.getPixelStride());
 //            Log.d(TAG, "U plane pixel stride: " + U_plane.getPixelStride());
